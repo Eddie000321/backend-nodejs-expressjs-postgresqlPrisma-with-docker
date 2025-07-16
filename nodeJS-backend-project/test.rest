@@ -1,0 +1,19 @@
+### TEST GET / WEBSITE
+GET http://localhost:7777
+
+### TEST GET /dashboard WEBSITE
+GET http://localhost:7777/dashboard
+
+
+### DATA END POINT
+GET http://localhost:7777/api/data
+
+### DATA ENDPINT FOR ADDING A USER
+POST http://localhost:7777/api/data
+Content-Type: application/json
+
+{
+    "name": "gilgamesh"
+}
+### DELETE END POINT
+DELETE http://localhost:7777/api/data

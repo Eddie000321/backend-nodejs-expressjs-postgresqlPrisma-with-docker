@@ -1,0 +1,47 @@
+### GET /
+GET http://localhost:5001
+
+### Register a user POST /auth/register
+POST http://localhost:5001/auth/register
+Content-Type: application/json
+
+{
+    "username": "gilgamesh@gmail.com",
+    "password": "123123123"
+}
+
+### Login a user POST /auth/login
+POST http://localhost:5001/auth/login
+Content-Type: application/json
+
+{
+    "username": "gilgamesh@gmail.com",
+    "password": "123123123"
+}
+
+### Fetch all todos GET /TODOS (protected)
+GET http://localhost:5001/todos
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUzNDY2MzAwLCJleHAiOjE3NTM1NTI3MDB9.xSK9Mfp6g60hwK-56mrZifRcxCia5UpQFWD3JvklKcM
+
+### Creates a new todo POST /TODOS (protected)
+POST http://localhost:5001/todos
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUzNDY2MzAwLCJleHAiOjE3NTM1NTI3MDB9.xSK9Mfp6g60hwK-56mrZifRcxCia5UpQFWD3JvklKcM
+Content-Type: application/json
+
+{
+    "task": "Finish coding the projects"
+}
+
+### Update a todo PUT /TODOS/:ID (protected)
+PUT http://localhost:5001/todos/2?page=4
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUzNDY2MzAwLCJleHAiOjE3NTM1NTI3MDB9.xSK9Mfp6g60hwK-56mrZifRcxCia5UpQFWD3JvklKcM
+Content-Type: application/json
+
+{
+    "completed": "1"
+}
+
+### Delete a todo PUT /TODOS/:ID (protected)
+DELETE  http://localhost:5001/todos/4
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUzNDU3NDM0LCJleHAiOjE3NTM1NDM4MzR9.i_Sq7rGkOtyYREucpmz8H3ZzOiAg2CggVUjAyIrm0L0
+

@@ -17,7 +17,7 @@ This server provides a basic API to manage a list of data. It also serves two si
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/Eddie000321/backend-nodejs-expressjs-postgresqlPrisma-with-docker.git
    ```
 2. Navigate to the project directory:
    ```bash

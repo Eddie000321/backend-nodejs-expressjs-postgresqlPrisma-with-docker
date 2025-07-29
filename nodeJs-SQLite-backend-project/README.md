@@ -17,7 +17,7 @@ This application allows users to register, log in, and manage their to-do lists.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/Eddie000321/backend-nodejs-expressjs-postgresqlPrisma-with-docker.git
    ```
 2. Navigate to the project directory:
    ```bash

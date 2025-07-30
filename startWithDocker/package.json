@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
-    "scripts": {
+  "scripts": {
+    "start": "node ./src/server.js",
     "dev": "node --watch --env-file=.env --experimental-strip-types --experimental-sqlite ./src/server.js",
-    test": "echo "Error: no test specified" && exit 1,
-    "postinstall": "prisma generate"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -17,9 +17,7 @@
     "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "pg": "^8.16.3"
-  },
-  "devDependencies": {
+    "pg": "^8.16.3",
     "prisma": "^6.13.0"
   }
 }

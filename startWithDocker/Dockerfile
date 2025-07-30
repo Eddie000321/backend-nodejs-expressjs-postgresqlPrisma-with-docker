@@ -10,8 +10,8 @@ COPY package*.json .
 # Install the dependencies
 RUN npm install 
 
-# Copy the rest of the application code
-COPY . . 
+# Copy the rest of the files
+COPY . .
 
 # Expose the port that the app runs on
 EXPOSE 5001

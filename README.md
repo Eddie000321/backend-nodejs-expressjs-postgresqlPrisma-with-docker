@@ -41,11 +41,11 @@ The server will be available at `http://localhost:5001`.
 
 ### 3. Dockerized NodeJS, PostgreSQL, and Prisma Project
 
-A full-stack to-do application that is containerized using Docker. It uses a Node.js backend, a PostgreSQL database, the Prisma ORM, and JWT for authentication.
+A full-stack to-do application that is containerized using Docker. It uses a Node.js backend, a PostgreSQL database, the Prisma ORM, and server-side sessions (HttpOnly cookies) for authentication.
 
 **Features:**
 
-* User registration and login with JWT authentication.
+* User registration and login with session-based authentication (cookies).
 * CRUD operations for to-dos.
 * PostgreSQL database with Prisma ORM.
 * Containerized with Docker for easy deployment.

@@ -1,4 +1,4 @@
-# Backend NodeJS Projects
+# Dockerized Full-Stack To-Do Application
 
 This repository contains three backend projects built with Node.js and Express. Each project demonstrates a different level of complexity and features.
 

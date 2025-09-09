@@ -23,11 +23,11 @@ The server will be available at `http://localhost:7777`.
 
 ### 2. NodeJS SQLite Backend Project
 
-A full-stack to-do application that uses a Node.js backend, a SQLite database, and JWT for authentication.
+A full-stack to-do application that uses a Node.js backend, a SQLite database, and server-side sessions (HttpOnly cookies) for authentication.
 
 **Features:**
 
-* User registration and login with JWT authentication.
+* User registration and login with session-based authentication (cookies).
 * CRUD operations for to-dos.
 * SQLite database for data storage.
 

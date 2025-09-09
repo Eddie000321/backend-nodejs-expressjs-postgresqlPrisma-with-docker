@@ -1,6 +1,5 @@
 import express from "express";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import db from "../db.js";
 
 const router = express.Router();
@@ -27,20 +26,16 @@ router.post("/register", (req, res) => {
     );
     insertTodo.run(result.lastInsertRowid, deafultTodo);
 
-    // create a token
-    const token = jwt.sign(
-      { id: result.lastInsertRowid },
-      process.env.JWT_SECRET,
-      { expiresIn: "24h" }
-    );
-    res.json({ token });
+    // establish a session
+    req.session.regenerate((err) => {
+      if (err) return res.sendStatus(503);
+      req.session.userId = result.lastInsertRowid;
+      res.json({ ok: true });
+    });
   } catch (err) {
     console.error(err);
     res.sendStatus(503);
   }
-
-  console.log(hashedPassword);
-  console.log(username, password);
 });
 // lgoin route endpoint
 router.post("/login", (req, res) => {
@@ -64,15 +59,32 @@ router.post("/login", (req, res) => {
     if (!passwordIsValid) {
       return res.status(401).send({ message: "Invalid password" });
     }
-    // then we have a successful authentication
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "24h",
+    // then we have a successful authentication -> establish session
+    req.session.regenerate((err) => {
+      if (err) return res.sendStatus(503);
+      req.session.userId = user.id;
+      res.json({ ok: true });
     });
-    res.json({ token });
   } catch (err) {
     console.log(err.message);
     res.sendStatus(503);
   }
+});
+
+// current session user
+router.get("/me", (req, res) => {
+  if (!req.session || !req.session.userId) {
+    return res.status(401).json({ message: "unauthorized" });
+  }
+  const getUser = db.prepare("SELECT id, username FROM users WHERE id = ?");
+  const user = getUser.get(req.session.userId);
+  return res.json({ user });
+});
+
+// logout and clear session
+router.post("/logout", (req, res) => {
+  if (!req.session) return res.json({ ok: true });
+  req.session.destroy(() => res.json({ ok: true }));
 });
 
 export default router;

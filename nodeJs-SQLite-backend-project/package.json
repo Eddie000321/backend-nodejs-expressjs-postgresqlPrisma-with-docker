@@ -10,10 +10,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "A full stack todo application that uses a NojeJS backend, a SQLite database and JWT Authentication.",
+  "description": "A full stack todo application that uses a Node.js backend, a SQLite database and server-side session authentication.",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "express-session": "^1.17.3"
   }
 }

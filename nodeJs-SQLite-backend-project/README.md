@@ -1,10 +1,10 @@
 # NodeJS SQLite Backend Project
 
-This project is a full-stack to-do application that uses a Node.js backend, a SQLite database, and JWT for authentication.
+This project is a full-stack to-do application that uses a Node.js backend, a SQLite database, and server-side sessions (HttpOnly cookies) for authentication.
 
 ## Description
 
-This application allows users to register, log in, and manage their to-do lists. The backend is built with Node.js and Express, and it uses a SQLite database to store user and to-do data. Authentication is handled using JSON Web Tokens (JWT).
+This application allows users to register, log in, and manage their to-do lists. The backend is built with Node.js and Express, and it uses a SQLite database to store user and to-do data. Authentication is handled using server-side sessions with HttpOnly cookies.
 
 ## Getting Started
 
@@ -45,7 +45,9 @@ The following API endpoints are available:
 ### Authentication
 
 * `POST /auth/register`: Registers a new user.
-* `POST /auth/login`: Logs in a user and returns a JWT.
+* `POST /auth/login`: Logs in a user and establishes a session (cookie).
+* `GET /auth/me`: Returns the current session user.
+* `POST /auth/logout`: Destroys the current session.
 
 ### To-Dos
 

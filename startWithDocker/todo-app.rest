@@ -19,29 +19,26 @@ Content-Type: application/json
     "password": "123123123"
 }
 
-### Fetch all todos GET /TODOS (protected)
+### Fetch all todos GET /TODOS (protected via cookie session)
 GET http://localhost:5001/todos
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUzNDY2MzAwLCJleHAiOjE3NTM1NTI3MDB9.xSK9Mfp6g60hwK-56mrZifRcxCia5UpQFWD3JvklKcM
 
-### Creates a new todo POST /TODOS (protected)
+### Creates a new todo POST /TODOS (protected via cookie session)
 POST http://localhost:5001/todos
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUzNDY2MzAwLCJleHAiOjE3NTM1NTI3MDB9.xSK9Mfp6g60hwK-56mrZifRcxCia5UpQFWD3JvklKcM
 Content-Type: application/json
 
 {
     "task": "Finish coding the projects"
 }
 
-### Update a todo PUT /TODOS/:ID (protected)
+### Update a todo PUT /TODOS/:ID (protected via cookie session)
 PUT http://localhost:5001/todos/2?page=4
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUzNDY2MzAwLCJleHAiOjE3NTM1NTI3MDB9.xSK9Mfp6g60hwK-56mrZifRcxCia5UpQFWD3JvklKcM
 Content-Type: application/json
 
 {
     "completed": "1"
 }
 
-### Delete a todo PUT /TODOS/:ID (protected)
+### Delete a todo PUT /TODOS/:ID (protected via cookie session)
 DELETE  http://localhost:5001/todos/4
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUzNDU3NDM0LCJleHAiOjE3NTM1NDM4MzR9.i_Sq7rGkOtyYREucpmz8H3ZzOiAg2CggVUjAyIrm0L0
 
+# Note: VS Code REST Client can preserve cookies if `rest-client.rememberCookiesForSubsequentRequests` is enabled.

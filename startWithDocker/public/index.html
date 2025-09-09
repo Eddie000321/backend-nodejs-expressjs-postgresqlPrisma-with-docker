@@ -52,7 +52,7 @@
     </main>
 </body>
 <script>
-    let token = localStorage.getItem('token')
+    // Sessions are cookie-based now; no token is needed
 
     let isLoading = false
     let isAuthenticating = false
@@ -214,10 +214,7 @@
                 data = await response.json()
             }
 
-            if (data.token) {
-                token = data.token
-                localStorage.setItem('token', token)
-
+            if (data.ok) {
                 // authenicating into loading
                 authBtn.innerText = 'Loading...'
 
@@ -243,16 +240,23 @@
     }
 
     function logout() {
-        // wipe states and clear cached token
+        // clear server session and reset UI
+        fetch(apiBase + 'auth/logout', { method: 'POST' })
+            .catch(() => { })
+            .finally(() => {
+                todos = []
+                document.querySelector('nav').style.display = 'none'
+                document.querySelector('header').style.display = 'none'
+                document.querySelector('main').style.display = 'none'
+                document.getElementById('auth').style.display = 'block'
+            })
     }
 
     // CRUD LOGIC
 
     async function fetchTodos() {
         isLoading = true
-        const response = await fetch(apiBase + 'todos', {
-            headers: { 'Authorization': token }
-        })
+        const response = await fetch(apiBase + 'todos')
         const todosData = await response.json()
         todos = todosData
         isLoading = false
@@ -264,8 +268,7 @@
         await fetch(apiBase + 'todos' + '/' + index, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ task: todos.find(val => val.id === index).task, completed: 1 })
         })
@@ -276,9 +279,7 @@
         // set task complete status to true
         await fetch(apiBase + 'todos' + '/' + index, {
             method: 'DELETE',
-            headers: {
-                'Authorization': token
-            },
+            headers: {},
         })
         fetchTodos()
     }
@@ -293,8 +294,7 @@
         await fetch(apiBase + 'todos', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ task })
         })
@@ -310,13 +310,17 @@
     // default to login screen
 
     // if is authenticated, show todo app
-    if (token) {
-        async function run() {
-            await fetchTodos()
-            showDashboard()
-        }
-        run()
+    // Try resume existing session
+    async function resumeSession() {
+        try {
+            const res = await fetch(apiBase + 'auth/me')
+            if (res.ok) {
+                await fetchTodos()
+                showDashboard()
+            }
+        } catch (e) { }
     }
+    resumeSession()
 </script>
 
 </html>

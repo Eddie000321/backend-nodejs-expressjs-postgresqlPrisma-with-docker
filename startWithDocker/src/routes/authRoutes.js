@@ -1,6 +1,5 @@
 import express from "express";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import prisma from "../prismaClient.js";
 
 const router = express.Router();
@@ -31,20 +30,16 @@ router.post("/register", async (req, res) => {
       },
     });
 
-    // create a token
-    const token = jwt.sign(
-      { id: result.lastInsertRowid },
-      process.env.JWT_SECRET,
-      { expiresIn: "24h" }
-    );
-    res.json({ token });
+    // establish a session (regenerate to prevent fixation)
+    await new Promise((resolve, reject) => {
+      req.session.regenerate((err) => (err ? reject(err) : resolve()));
+    });
+    req.session.userId = user.id;
+    res.json({ ok: true });
   } catch (err) {
     console.error(err);
     res.sendStatus(503);
   }
-
-  console.log(hashedPassword);
-  console.log(username, password);
 });
 // lgoin route endpoint
 router.post("/login", async (req, res) => {
@@ -71,13 +66,38 @@ router.post("/login", async (req, res) => {
     if (!passwordIsValid) {
       return res.status(401).send({ message: "Invalid password" });
     }
-    // then we have a successful authentication
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "24h",
+    // then we have a successful authentication -> establish session
+    await new Promise((resolve, reject) => {
+      req.session.regenerate((err) => (err ? reject(err) : resolve()));
     });
-    res.json({ token });
+    req.session.userId = user.id;
+    res.json({ ok: true });
   } catch (err) {
     console.log(err.message);
+    res.sendStatus(503);
+  }
+});
+
+// current session user
+router.get("/me", async (req, res) => {
+  try {
+    if (!req.session || !req.session.userId) {
+      return res.status(401).json({ message: "unauthorized" });
+    }
+    const user = await prisma.user.findUnique({ where: { id: req.session.userId }, select: { id: true, username: true } });
+    return res.json({ user });
+  } catch (e) {
+    return res.sendStatus(503);
+  }
+});
+
+// logout and clear session
+router.post("/logout", async (req, res) => {
+  try {
+    if (!req.session) return res.json({ ok: true });
+    await new Promise((resolve, _reject) => req.session.destroy(() => resolve()));
+    res.json({ ok: true });
+  } catch (e) {
     res.sendStatus(503);
   }
 });

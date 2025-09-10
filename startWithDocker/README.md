@@ -35,6 +35,11 @@ This application allows users to register, log in, and manage their to-do lists.
 
 The application will be available at `http://localhost:5001`.
 
+## Testing
+
+- Automated API tests are included. To run inside Docker:
+  - `docker compose run --rm app sh -c "npx prisma migrate deploy && node --test"`
+
 ## API Endpoints
 
 The following API endpoints are available:
@@ -54,6 +59,19 @@ The following API endpoints are available:
 * `DELETE /todos/:id`: Deletes a to-do for the authenticated user.
 
 You can use the `todo-app.rest` file to test the API endpoints.
+
+<details>
+<summary>테스트/품질 노트 — 클릭하여 펼치기</summary>
+
+## 자동화 테스트의 의의
+- 수동 REST 호출 대비, 회귀 방지/재현성/커버리지 면에서 신뢰도를 높입니다.
+- 세션 쿠키 흐름을 Supertest agent로 실제 시나리오처럼 검증합니다.
+
+## 실행 팁
+- 컨테이너 내부에서 DB 마이그레이션 후 `node --test`로 실행하는 방식을 권장합니다.
+- 케이스: 회원가입/중복가입/비인증 접근 거절/로그인 후 TODO CRUD 등 핵심 플로우 포함.
+
+</details>
 
 ## Database Schema
 

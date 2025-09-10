@@ -57,3 +57,13 @@ A full-stack to-do application that is containerized using Docker. It uses a Nod
 3. Build and run the application with Docker Compose: `docker-compose up -d`
 
 The application will be available at `http://localhost:5001`.
+
+## Security Note
+
+"Auth is intentionally lightweight for user isolation. Not a production-grade security stack. Hardening items (CSRF token, Redis session store, rate limiting, 2FA) are tracked as learning topics and potential future improvements."
+
+### Learning Topics: Security Hardening
+- CSRF token
+- Redis-backed session store
+- Rate limiting
+- 2FA (Two-Factor Authentication)

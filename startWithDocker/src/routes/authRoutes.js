@@ -37,8 +37,8 @@ router.post("/register", async (req, res) => {
     req.session.userId = user.id;
     res.json({ ok: true });
   } catch (err) {
-    console.error(err);
-    res.sendStatus(503);
+    console.error("/auth/register failed:", err);
+    res.status(503).json({ message: "Service Unavailable", error: err?.message || "unknown" });
   }
 });
 // lgoin route endpoint
@@ -73,8 +73,8 @@ router.post("/login", async (req, res) => {
     req.session.userId = user.id;
     res.json({ ok: true });
   } catch (err) {
-    console.log(err.message);
-    res.sendStatus(503);
+    console.error("/auth/login failed:", err);
+    res.status(503).json({ message: "Service Unavailable", error: err?.message || "unknown" });
   }
 });
 
@@ -87,7 +87,8 @@ router.get("/me", async (req, res) => {
     const user = await prisma.user.findUnique({ where: { id: req.session.userId }, select: { id: true, username: true } });
     return res.json({ user });
   } catch (e) {
-    return res.sendStatus(503);
+    console.error("/auth/me failed:", e);
+    return res.status(503).json({ message: "Service Unavailable", error: e?.message || "unknown" });
   }
 });
 
@@ -98,7 +99,8 @@ router.post("/logout", async (req, res) => {
     await new Promise((resolve, _reject) => req.session.destroy(() => resolve()));
     res.json({ ok: true });
   } catch (e) {
-    res.sendStatus(503);
+    console.error("/auth/logout failed:", e);
+    res.status(503).json({ message: "Service Unavailable", error: e?.message || "unknown" });
   }
 });
 

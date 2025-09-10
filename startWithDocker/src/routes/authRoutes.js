@@ -7,6 +7,10 @@ const router = express.Router();
 // Register a new user endpoint /auth/register
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
+  // basic validation
+  if (!username || !password || password.length < 6) {
+    return res.status(400).json({ message: "Invalid input" });
+  }
   // save the username and an irreversibly encrypted password
   // save gilgamesh@gmail.com -> ex) eir92q8q0y8afhabfq3
 
@@ -37,6 +41,10 @@ router.post("/register", async (req, res) => {
     req.session.userId = user.id;
     res.json({ ok: true });
   } catch (err) {
+    // Handle duplicate username gracefully
+    if (err?.code === "P2002") {
+      return res.status(409).json({ message: "Username already exists" });
+    }
     console.error("/auth/register failed:", err);
     res.status(503).json({ message: "Service Unavailable", error: err?.message || "unknown" });
   }

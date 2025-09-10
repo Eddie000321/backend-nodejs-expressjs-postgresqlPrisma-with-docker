@@ -39,6 +39,6 @@ Content-Type: application/json
 }
 
 ### Delete a todo PUT /TODOS/:ID (protected via cookie session)
-DELETE  http://localhost:5001/todos/4
+DELETE  http://localhost:5001/todos/5
 
 # Note: VS Code REST Client can preserve cookies if `rest-client.rememberCookiesForSubsequentRequests` is enabled.

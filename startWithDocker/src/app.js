@@ -44,7 +44,7 @@ app.use(
 
 // Routes
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "../public", "index.html"));
 });
 
 app.use("/auth", authRoutes);
@@ -60,4 +60,3 @@ function requireAuth(req, res, next) {
 app.use("/todos", requireAuth, todoRoutes);
 
 export default app;
-

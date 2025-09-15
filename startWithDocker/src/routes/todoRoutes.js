@@ -26,12 +26,12 @@ router.post("/", async (req, res) => {
   res.json(todo);
 });
 
-// update a todo
+// update a todo (scoped to current user)
 router.put("/:id", async (req, res) => {
   const { completed } = req.body;
   const { id } = req.params;
 
-  const updatedTodo = await prisma.todo.update({
+  const result = await prisma.todo.updateMany({
     where: {
       id: parseInt(id),
       userId: req.userId,
@@ -40,20 +40,31 @@ router.put("/:id", async (req, res) => {
       completed: !!completed,
     },
   });
-  res.json(updatedTodo);
+
+  if (result.count === 0) {
+    return res.status(404).json({ message: "todo not found" });
+  }
+
+  res.json({ ok: true });
 });
 
-// delete a todo
+// delete a todo (scoped to current user)
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   const userId = req.userId;
-  await prisma.todo.delete({
+
+  const result = await prisma.todo.deleteMany({
     where: {
       id: parseInt(id),
       userId,
     },
   });
-  res.json({ message: "todo deleted" });
+
+  if (result.count === 0) {
+    return res.status(404).json({ message: "todo not found" });
+  }
+
+  res.json({ ok: true });
 });
 
 export default router;
